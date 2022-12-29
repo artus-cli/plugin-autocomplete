@@ -2,6 +2,15 @@ import { run } from './test-utils';
 import os from 'node:os';
 
 describe('test/index.test.ts', () => {
+  it('should ignore in windows', async () => {
+    if (os.platform() !== 'win32') return;
+
+    await run('my-bin', 'autocomplete zsh')
+      // .debug()
+      .expect('stdout', /Autocomplete is not support windows/)
+      .end();
+  });
+
   it('should autocomplete works', async () => {
     if (os.platform() === 'win32') return;
 
