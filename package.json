@@ -25,7 +25,6 @@
     "prepack": "npm run tsc"
   },
   "dependencies": {
-    "egg-bin": "^5.9.0",
     "inquirer": "^8.2.5",
     "tslib": "^2.4.0",
     "yargs-parser": "^21.1.1"

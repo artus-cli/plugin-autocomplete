@@ -2,7 +2,7 @@ import { DefineCommand, Command, Option, DefineOption, Program, Inject } from '@
 import inquirer from 'inquirer';
 import os from 'node:os';
 import path from 'node:path';
-import scripts from '../scripts';
+import scripts from './scripts';
 const supportShellTypes = [ 'zsh', 'bash' ];
 
 export interface AutoCompleteOption extends Option {
@@ -22,12 +22,12 @@ export class AutoCompleteCommand extends Command {
 
   async run() {
     let shell = this.args.shell;
-    if (shell && !supportShellTypes.includes(shell)) {
-      console.error('Unknown shell type', shell);
-      shell = undefined;
+    if (os.platform() === 'win32') {
+      console.info('Autocomplete is not support windows');
+      return;
     }
 
-    if (!shell) {
+    if (!shell || !supportShellTypes.includes(shell)) {
       const result = await inquirer.prompt([{
         name: 'shell',
         type: 'list',
@@ -39,8 +39,8 @@ export class AutoCompleteCommand extends Command {
     }
 
     const rcFile = path.resolve(os.homedir(), shell === 'zsh' ? '.zshrc' : '.bashrc');
-    const script = scripts[shell](this.program.binName);
-    console.info(`\nPlease copy the scripts to ${rcFile} manually`);
+    const script = scripts[shell](this.program.binName, process.argv[1]);
+    console.info(`\nPlease copy the scripts to ${rcFile} manually.`);
     console.info(script);
   }
 }

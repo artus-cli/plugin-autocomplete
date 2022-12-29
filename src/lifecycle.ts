@@ -12,25 +12,24 @@ export default class TemplateLifecycle implements ApplicationLifecycle {
   @LifecycleHook()
   async configDidLoad() {
     this.program.use(async (ctx: CommandContext, next) => {
-      const argv: string[] = ctx.args.getCompletionArgv;
-      if (!argv) return next();
+      const _argv: undefined | string | string[] = ctx.args.getCompletionArgv;
+      if (!_argv) return next();
 
+      const argv = Array.isArray(_argv) ? _argv : _argv.split(/\s+/);
       const formatStr = str => str.replace(/:/, '\\:');
-      const { fuzzyMatched, matched } = this.parsedCommands.matchCommand(argv.slice(1));
+      const { fuzzyMatched } = this.parsedCommands.matchCommand(argv.slice(1));
       const completions: string[] = [];
 
-      if (matched) {
-        Object.keys(matched.options)
-          .forEach(flag => {
-            const opt = matched.options[flag];
-            completions.push(`--${formatStr(parser.decamelize(flag))}:${opt.description || flag}`);
-          });
-      } else if (fuzzyMatched) {
-        fuzzyMatched.childs
-          .forEach(({ cmd, description }) => {
-            completions.push(`${formatStr(cmd)}:${description}`);
-          });
-      }
+      fuzzyMatched.childs
+        .forEach(({ cmd, description }) => {
+          completions.push(`${formatStr(cmd)}:${description}`);
+        });
+
+      Object.keys(fuzzyMatched.options)
+        .forEach(flag => {
+          const opt = fuzzyMatched.options[flag];
+          completions.push(`--${formatStr(parser.decamelize(flag))}:${opt.description || flag}`);
+        });
 
       process.stdout.write(completions.join('\n'));
     });
