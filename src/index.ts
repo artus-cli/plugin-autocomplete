@@ -1,1 +1,1 @@
-export * from './cmd/example';
+export * from './cmd/autocomplete';
