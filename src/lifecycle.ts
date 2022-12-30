@@ -15,6 +15,7 @@ export default class TemplateLifecycle implements ApplicationLifecycle {
       const _argv: undefined | string | string[] = ctx.args.getCompletionArgv;
       if (!_argv) return next();
 
+      /** passthrough by `--get-completion-argv="xxx xxx"` */
       const argv = Array.isArray(_argv) ? _argv : _argv.split(/\s+/);
       const formatStr = str => str.replace(/:/, '\\:');
       const { fuzzyMatched } = this.parsedCommands.matchCommand(argv.slice(1));
