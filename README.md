@@ -13,7 +13,7 @@ autocomplete plugin for artus-cli
 ## Install
 
 ```sh
-$ npm i -D @artus-cli/plugin-autocomplete 
+$ npm i @artus-cli/plugin-autocomplete 
 ```
 
 ## Usage
