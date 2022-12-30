@@ -1,7 +1,7 @@
 {
   "name": "@artus-cli/plugin-autocomplete",
   "version": "0.0.0",
-  "description": "autocomplete plugin ",
+  "description": "autocomplete plugin",
   "homepage": "",
   "author": "",
   "main": "dist/index.js",
