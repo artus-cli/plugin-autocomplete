@@ -22,7 +22,7 @@ $ npm i -D @artus-cli/plugin-autocomplete
 // plugin.ts
 
 export default {
-  template: {
+  autocomplete: {
     enable: true,
     package: 'artus-cli/plugin-autocomplete',
   },
