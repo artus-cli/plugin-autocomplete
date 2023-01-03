@@ -1,22 +1,13 @@
-import { DefineCommand, DefineOption } from '@artus-cli/artus-cli';
-import { TestCommand, TestOption } from './test';
-
-interface CovOption extends TestOption {
-  c8?: boolean;
-}
+import { DefineCommand, Option } from '@artus-cli/artus-cli';
+import { TestCommand } from './test';
 
 @DefineCommand({
   command: 'cov <baseDir> [file...]',
   description: 'Run the coverage',
 })
 export class CovCommand extends TestCommand {
-  @DefineOption<CovOption>({
-    c8: {
-      type: 'boolean',
-      default: true,
-    },
-  })
-  args: CovOption;
+  @Option()
+  c8: boolean;
 
   async run() {
     // nothing

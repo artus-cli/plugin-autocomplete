@@ -1,13 +1,10 @@
-import { DefineCommand, Command, Option, DefineOption, Program, Inject } from '@artus-cli/artus-cli';
+import { DefineCommand, Command, Option, Program, Inject } from '@artus-cli/artus-cli';
 import inquirer from 'inquirer';
 import os from 'node:os';
 import path from 'node:path';
 import scripts from './scripts';
 const supportShellTypes = [ 'zsh', 'bash' ];
 
-export interface AutoCompleteOption extends Option {
-  shell?: string;
-}
 
 @DefineCommand({
   command: 'autocomplete [shell]',
@@ -17,11 +14,11 @@ export class AutoCompleteCommand extends Command {
   @Inject()
   program: Program;
 
-  @DefineOption()
-  args: AutoCompleteOption;
+  @Option()
+  shell: string;
 
   async run() {
-    let shell = this.args.shell;
+    let shell = this.shell;
     if (os.platform() === 'win32') {
       console.info('Autocomplete is not support windows');
       return;
