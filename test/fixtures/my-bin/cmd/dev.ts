@@ -1,11 +1,4 @@
-import { DefineCommand, DefineOption, Command, Option } from '@artus-cli/artus-cli';
-
-export interface DevOption extends Option {
-  port?: number;
-  inspect?: boolean;
-  nodeFlags?: string;
-  baseDir?: string;
-}
+import { DefineCommand, Command, Option } from '@artus-cli/artus-cli';
 
 @DefineCommand({
   command: 'dev [baseDir]',
@@ -13,25 +6,21 @@ export interface DevOption extends Option {
   alias: [ 'd' ],
 })
 export class DevCommand extends Command {
-  @DefineOption<DevOption>({
-    port: {
-      type: 'number',
-      alias: 'p',
-      default: 3000,
-      description: 'Start A Server',
-    },
-
-    inspect: {
-      type: 'boolean',
-      default: false,
-      description: 'Debug with node-inspector',
-    },
-
-    nodeFlags: {
-      type: 'string',
-    },
+  @Option({
+    alias: 'p',
+    default: 3000,
+    description: 'Start A Server',
   })
-  args: DevOption;
+  port: number;
+
+  @Option({
+    default: false,
+    description: 'Debug with node-inspector',
+  })
+  inspect: boolean;
+
+  @Option()
+  nodeFlags: string;
 
   async run() {
     // nothing
